@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive IP Logger</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let images = [
+                'https://www.itl.cat/pngfile/big/287-2879365_en-iyi-wallpaper-trk-hack-team.jpg',  // İlk resim URL'si
+                'https://i.hizliresim.com/8bap7p4.png'   // İkinci resim URL'si
+            ];
+            let currentIndex = 0;
+            setInterval(() => {
+                document.body.style.backgroundImage = `url(${images[currentIndex]})`;
+                currentIndex = (currentIndex + 1) % images.length;
+            }, 10000); // 10 saniyede bir değişir
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Exclusive IP Logger</h1>
+        <form method="post">
+            <label for="ip">IP Adresi:</label>
+            <input type="text" id="ip" name="ip" required>
+            <button type="submit">Göster</button>
+        </form>
+        {% if location and location.status != 'fail' %}
+            <div class="location-info">
+                <h2>Konum Bilgisi:</h2>
+                <p><strong>IP:</strong> {{ location['query'] }}</p>
+                <p><strong>Ülke:</strong> {{ location['country'] }}</p>
+                <p><strong>Bölge:</strong> {{ location['regionName'] }}</p>
+                <p><strong>Şehir:</strong> {{ location['city'] }}</p>
+            </div>
+        {% elif location and location.status == 'fail' %}
+            <div class="location-info">
+                <h2>Hata:</h2>
+                <p>{{ location.message }}</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
